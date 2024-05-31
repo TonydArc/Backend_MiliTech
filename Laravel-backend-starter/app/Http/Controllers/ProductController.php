@@ -50,7 +50,7 @@ class ProductController extends Controller
         $product_data = [
             'ProductId' => $product->ProductId,
             'ProductName' => $product->ProductName,
-            'Price' => $product->Price,
+            'Price' => number_format($product->Price, 0, '.', '.') . ' VNĐ',
             'Quantity' => $product->Quantity,
             'ImageURL' => $product->ImageURL,
             'Details' => $details,

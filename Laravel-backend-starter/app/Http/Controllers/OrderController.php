@@ -158,7 +158,11 @@ class OrderController extends Controller
 
     public function getOrdersByUserId($id)
     {
-        $orders = Order::where('CustomerId', $id)->get();
+        $orders = Order::join('orderstatus', 'orders.StatusId', '=', 'orderstatus.StatusId')
+        ->join('users', 'users.id', '=', 'orders.CustomerId')
+        ->where('orders.CustomerId', $id)
+        ->select('orders.*', 'orderstatus.*', 'users.name')
+        ->get();
         return response()->json($orders);
     }
 }
