@@ -82,4 +82,10 @@ class ProductCatalogController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
     }
+
+    public function getAll()
+    {
+        $productCatalogs = ProductCatalog::all();
+        return response()->json($productCatalogs);
+    }
 }

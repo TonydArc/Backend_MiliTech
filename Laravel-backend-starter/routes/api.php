@@ -54,3 +54,6 @@ Route::middleware(['jwt.verify'])->group(function () {
 
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{id}', [ProductController::class, 'show']);
+
+Route::get('catalog', [ProductCatalogController::class, 'getAll']);
+Route::get('products/catalog/{catalog}', [ProductController::class, 'getProductByCatalog']);

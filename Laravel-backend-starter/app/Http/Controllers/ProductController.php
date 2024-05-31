@@ -18,7 +18,7 @@ class ProductController extends Controller
             return [
                 'ProductId' => $product->ProductId,
                 'ProductName' => $product->ProductName,
-                'Price' => number_format($product->Price, 0, '.', '.') . ' VNĐ',
+                'Price' => $product->Price,
                 'Quantity' => $product->Quantity,
                 'ImageURL' => $product->ImageURL,
                 'CatalogName' => $product->catalog->CatalogName ?? null,
@@ -50,7 +50,7 @@ class ProductController extends Controller
         $product_data = [
             'ProductId' => $product->ProductId,
             'ProductName' => $product->ProductName,
-            'Price' => number_format($product->Price, 0, '.', '.') . ' VNĐ',
+            'Price' => $product->Price,
             'Quantity' => $product->Quantity,
             'ImageURL' => $product->ImageURL,
             'Details' => $details,
@@ -167,10 +167,6 @@ class ProductController extends Controller
         }
     }
 
-
-
-
-
     public function destroy($id)
     {
         $product = Product::with('detail')->find($id);
@@ -190,5 +186,13 @@ class ProductController extends Controller
                 'message' => 'Product not found!',
             ], Response::HTTP_NOT_FOUND);
         }
+    }
+
+    public function getProductByCatalog($catalog) {
+        $products = Product::join('productcatalog', 'products.CatalogId', '=', 'productcatalog.CatalogId')
+        ->where('productcatalog.CatalogName', $catalog)
+        ->select('products.*', 'productcatalog.*')
+        ->get();
+        return response()->json($products);
     }
 }
